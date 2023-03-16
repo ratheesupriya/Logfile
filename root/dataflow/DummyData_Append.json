@@ -12,6 +12,10 @@
 					"name": "SourceData"
 				},
 				{
+					"dataset": {
+						"referenceName": "DelimitedText6",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
@@ -50,7 +54,7 @@
 				"     partitionBy('hash', 1)) ~> SourceData",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     wildcardPaths:[($LogFileName)]) ~> source1",
+				"     ignoreNoFilesFound: false) ~> source1",
 				"SourceData derive(ADFName = $ADFName ,",
 				"          PipelineName = $PipelineName,",
 				"          Status = $Status,",
