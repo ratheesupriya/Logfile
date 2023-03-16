@@ -15,10 +15,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().logfileName",
-					"type": "Expression"
-				},
 				"folderPath": "log",
 				"container": "logfile"
 			},
