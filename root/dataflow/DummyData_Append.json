@@ -1,12 +1,12 @@
 {
-	"name": "DummyData",
+	"name": "DummyData_Append",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DelimitedText1",
+						"referenceName": "DelimitedText3",
 						"type": "DatasetReference"
 					},
 					"name": "SourceData"
@@ -38,10 +38,7 @@
 				"     TriggerName as string,",
 				"     LogFileName as string",
 				"}",
-				"source(output(",
-				"          Column_1 as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     partitionBy('hash', 1)) ~> SourceData",
