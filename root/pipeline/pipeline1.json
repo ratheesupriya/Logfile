@@ -72,6 +72,137 @@
 						"type": "DelimitedTextReadSettings"
 					}
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('Get Metadata1').output.exists",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "DummyData",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DummyData",
+									"type": "DataFlowReference",
+									"parameters": {
+										"ADFName": {
+											"value": "'@{pipeline().DataFactory}'",
+											"type": "Expression"
+										},
+										"PipelineName": {
+											"value": "'@{pipeline().Pipeline}'",
+											"type": "Expression"
+										},
+										"Status": {
+											"value": "'@{string('Success')}'",
+											"type": "Expression"
+										},
+										"RunId": {
+											"value": "'@{pipeline().RunId}'",
+											"type": "Expression"
+										},
+										"TriggerName": {
+											"value": "'@{pipeline().TriggerName}'",
+											"type": "Expression"
+										},
+										"LogFileName": {
+											"value": "'@{variables('LogFileName')}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "DummyData_Append",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DummyData_Append",
+									"type": "DataFlowReference",
+									"parameters": {
+										"ADFName": {
+											"value": "'@{pipeline().DataFactory}'",
+											"type": "Expression"
+										},
+										"PipelineName": {
+											"value": "'@{pipeline().Pipeline}'",
+											"type": "Expression"
+										},
+										"Status": {
+											"value": "'@{string('Success')}'",
+											"type": "Expression"
+										},
+										"RunId": {
+											"value": "'@{pipeline().RunId}'",
+											"type": "Expression"
+										},
+										"TriggerName": {
+											"value": "'@{pipeline().TriggerName}'",
+											"type": "Expression"
+										},
+										"LogFileName": {
+											"value": "'@{variables('LogFileName')}'",
+											"type": "Expression"
+										}
+									},
+									"datasetParameters": {
+										"source1": {
+											"logFileName": {
+												"value": "@variables('LogFileName')",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
+							}
+						}
+					]
+				}
 			}
 		],
 		"variables": {
