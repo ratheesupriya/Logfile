@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Logfile12345"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"Linkedservice_SQL_connectionString": {
+			"value": ""
+		},
+		"Sqlserver1_connectionString": {
+			"value": "Integrated Security=False;Data Source=@{linkedService().ServerName};Initial Catalog=@{linkedService().dbName};User ID=@{linkedService().UserName};Password=@{linkedService().Password}"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://supriyaop1.dfs.core.windows.net/"
+		},
+		"Integration_properties_pipeline2_parameters_sourcetable": {
+			"value": "customers"
+		},
+		"Integration_properties_pipeline2_parameters_dbnamefrompipeline": {
+			"value": "BD1"
+		},
+		"Integration_properties_pipeline2_parameters_destinationtable": {
+			"value": "sales.orders"
+		}
+	}
+}
