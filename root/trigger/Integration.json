@@ -1,0 +1,29 @@
+{
+	"name": "Integration",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline2",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"sourcetable": "customers",
+					"dbnamefrompipeline": "BD1",
+					"destinationtable": "sales.orders"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2023-03-20T09:13:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

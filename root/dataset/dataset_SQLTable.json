@@ -11,6 +11,9 @@
 		"parameters": {
 			"tablename": {
 				"type": "string"
+			},
+			"dbnamefromdataset": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
