@@ -76,16 +76,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IR-Selfhost')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Sqlserver1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -109,6 +99,16 @@
 				"typeProperties": {
 					"connectionString": "[parameters('Sqlserver1_connectionString')]"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IR-Selfhost')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -231,6 +231,84 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/IR-Selfhost')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataset_SQLTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Linkedservice_SQL",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"dbName": "BD1"
+					}
+				},
+				"parameters": {
+					"tablename": {
+						"type": "string"
+					},
+					"dbnamefromdataset": {
+						"type": "string"
+					},
+					"schema": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "staff_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "first_name",
+						"type": "varchar"
+					},
+					{
+						"name": "last_name",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "phone",
+						"type": "varchar"
+					},
+					{
+						"name": "active",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "store_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "manager_id",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().tablename",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Linkedservice_SQL')]"
 			]
 		},
 		{
@@ -404,78 +482,6 @@
 				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText3')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataset_SQLTable')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Linkedservice_SQL",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"dbName": "BikeStores"
-					}
-				},
-				"parameters": {
-					"tablename": {
-						"type": "string"
-					},
-					"dbnamefromdataset": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "staff_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "first_name",
-						"type": "varchar"
-					},
-					{
-						"name": "last_name",
-						"type": "varchar"
-					},
-					{
-						"name": "email",
-						"type": "varchar"
-					},
-					{
-						"name": "phone",
-						"type": "varchar"
-					},
-					{
-						"name": "active",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "store_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "manager_id",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "sales",
-					"table": {
-						"value": "@dataset().tablename",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Linkedservice_SQL')]"
 			]
 		},
 		{
@@ -745,6 +751,116 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "customer_id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "customer_id",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "first_name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "first_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "last_name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "last_name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "phone",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "phone",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "email",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "email",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "street",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "street",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "city",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "city",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "state",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "zip_code",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "zip_code",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
 								"typeConversion": true,
 								"typeConversionSettings": {
 									"allowDataTruncation": true,
@@ -764,6 +880,10 @@
 									"dbnamefromdataset": {
 										"value": "@pipeline().parameters.dbnamefrompipeline",
 										"type": "Expression"
+									},
+									"schema": {
+										"value": "@pipeline().parameters.schema",
+										"type": "Expression"
 									}
 								}
 							}
@@ -779,6 +899,10 @@
 									},
 									"dbnamefromdataset": {
 										"value": "@pipeline().parameters.dbnamefrompipeline",
+										"type": "Expression"
+									},
+									"schema": {
+										"value": "@pipeline().parameters.schema",
 										"type": "Expression"
 									}
 								}
@@ -798,6 +922,9 @@
 						"type": "string"
 					},
 					"destinationtable": {
+						"type": "string"
+					},
+					"schema": {
 						"type": "string"
 					}
 				},
