@@ -8,6 +8,11 @@
 				"dbName": "BikeStores"
 			}
 		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SqlServerTable",
 		"schema": [
@@ -51,7 +56,10 @@
 		],
 		"typeProperties": {
 			"schema": "sales",
-			"table": "orders"
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
 		}
 	}
 }
