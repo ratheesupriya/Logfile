@@ -1,0 +1,57 @@
+{
+	"name": "dataset_SQLTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linkedservice_SQL",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"dbName": "BikeStores"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "order_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "customer_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "order_status",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "order_date",
+				"type": "date"
+			},
+			{
+				"name": "required_date",
+				"type": "date"
+			},
+			{
+				"name": "shipped_date",
+				"type": "date"
+			},
+			{
+				"name": "store_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "staff_id",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "sales",
+			"table": "orders"
+		}
+	}
+}
